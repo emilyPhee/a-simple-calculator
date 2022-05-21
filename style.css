@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.calculate-display-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-rows: repeat(5, 70px);
+  width: 350px;
+}
+
+.btn-key:nth-child(16) {
+  grid-row-start: span 2;
+  background-color: antiquewhite;
+}
+
+.btn-key:nth-child(17) {
+  grid-column: 1 / 3;
+}
