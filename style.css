@@ -1,24 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Itim&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
-.calculate-display-container {
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+}
+
+body {
+  background-color: #ece2d6;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.calculator-body {
+  background-color: #3a3a3a;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+  margin-top: 120px;
+}
+
+.calculate-display {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 1px 25px;
+  width: 97%;
+  height: 120px;
+  background-color: #d9d9d9;
+  border-radius: 3px;
+}
+
+.display-text {
+  font-size: 27px;
+  color: #868686;
+}
+
+.calculator-bts-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-
   grid-template-rows: repeat(5, 70px);
   width: 350px;
 }
 
+.btn-key {
+  font-size: 24px;
+}
+
+.btn-key:hover {
+  background-color: #2e2e2e;
+}
+
 .btn-key:nth-child(16) {
   grid-row-start: span 2;
-  background-color: antiquewhite;
+  background-color: #f09528;
+  border-radius: 7px;
+}
+
+.btn-key:nth-child(16):hover {
+  background-color: #ed8507;
 }
 
 .btn-key:nth-child(17) {
   grid-column: 1 / 3;
+}
+
+.body-title {
+  font-family: 'Itim', cursive;
+  color: #787878;
+  margin: 0;
+  transform: rotate(90deg);
+  margin-left: -45px;
+  margin-bottom: 65px;
 }
