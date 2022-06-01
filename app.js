@@ -1,64 +1,53 @@
-const btnKeys = document.querySelectorAll('.btn-key');
+const numberButtons = document.querySelectorAll('[data-number]');
+const operationButtons = document.querySelectorAll('[data-operation]');
+const equalsButton = document.querySelector('[data-equals]');
+const allClearButton = document.querySelector('[data-all-clear]');
+const deleteButton = document.querySelector('[data-delete]');
+
+const previousOperandTextElement = document.querySelector(
+  '[data-previous-operand]'
+);
+const currentOperandTextElement = document.querySelector(
+  '[data-current-operand]'
+);
 const displayText = document.querySelector('.display-text');
 
-let displayValue = '';
-let currentOperator;
-let prevOperator;
+let displayTextVal = '';
+let currentOperation = '';
 
-let solution;
+// Clear to make it to default
+clear();
 
-let firstNum;
-let secondNum;
+function clear() {
+  previousOperandTextElement.innerText = ' ';
+  currentOperandTextElement.innerText = '0';
+  displayTextVal = '';
+  displayText.classList.remove('active');
+}
 
-let calculateCounter = 0;
+function deleteNumber() {
+  if (currentOperandTextElement.innerText.length > 1) {
+    currentOperandTextElement.innerText = currentOperandTextElement.innerText
+      .toString()
+      .slice(0, -1);
+  } else {
+    clear();
+  }
+}
 
-btnKeys.forEach(key => {
-  key.addEventListener('click', () => {
-    const clickedkeyVal = key.innerText;
+function appendNumber(number) {
+  displayTextVal += number.toString();
+}
 
-    // check if pressed key is number
-    if (/^\d+$/.test(clickedkeyVal) || clickedkeyVal === '.') {
-      displayText.classList.add('active');
-      displayValue += clickedkeyVal;
-      if (displayValue.length < 110) {
-        displayText.innerText = displayValue;
-      }
-    }
+function chooseOperation(operation) {
+  currentOperation = operation;
+}
 
-    // check if pressed key is operator
-    if (/(\+|-|\*|\/)$/.test(clickedkeyVal)) {
-      calculateCounter++;
-      prevOperator = clickedkeyVal;
+function compute() {}
 
-      if (calculateCounter > 1) {
-        currentOperator = clickedkeyVal;
-        secondNum = displayValue;
-        console.log('first', firstNum);
-        console.log('second', secondNum);
-        firstNum = operate(prevOperator, firstNum, secondNum);
-
-        console.log('first num', firstNum);
-        calculateCounter = 0;
-        displayValue = '';
-      } else {
-        firstNum = displayValue;
-        currentOperator = clickedkeyVal;
-        displayValue = '';
-
-        console.log(calculateCounter);
-      }
-    }
-
-    // check if pressed key is equal sign (enter)
-    if (/=$/.test(clickedkeyVal)) {
-      secondNum = displayValue;
-
-      solution = operate(currentOperator, firstNum, secondNum);
-
-      displayText.innerText = solution;
-    }
-  });
-});
+function updateDisplay() {
+  currentOperandTextElement.innerText = displayTextVal;
+}
 
 // math operators
 function add(a, b) {
@@ -88,9 +77,35 @@ function operate(operator, a, b) {
     case '*':
       return multiply(a, b);
 
-    case '/':
+    case '÷':
       return divide(a, b);
+
+    default:
+      return;
   }
 }
 
-console.log(operate('+', 2, 7));
+allClearButton.addEventListener('click', () => {
+  clear();
+});
+
+deleteButton.addEventListener('click', () => {
+  deleteNumber();
+});
+
+numberButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const clickedNum = btn.innerText;
+    appendNumber(clickedNum.toString());
+    updateDisplay();
+
+    displayText.classList.add('active');
+    // console.log(currentOperation);
+  });
+});
+
+operationButtons.forEach(operationBtn => {
+  operationBtn.addEventListener('click', () => {
+    chooseOperation(operationBtn.innerText);
+  });
+});

@@ -15,29 +15,29 @@
     <div class="container">
       <div class="calculator-body">
         <div class="calculate-display">
-          <div class="temp-text"></div>
-          <div class="display-text">0</div>
+          <div data-previous-operand class="temp-text"></div>
+          <div data-current-operand class="display-text"></div>
         </div>
 
         <div class="calculator-bts-container">
-          <button id="clear" class="btn-key">AC</button>
-          <button id="del" class="btn-key">DEL</button>
-          <button class="btn-key operator">/</button>
-          <button class="btn-key operator">*</button>
-          <button class="btn-key">7</button>
-          <button class="btn-key">8</button>
-          <button class="btn-key">9</button>
-          <button class="btn-key operator">-</button>
-          <button class="btn-key">4</button>
-          <button class="btn-key">5</button>
-          <button class="btn-key">6</button>
-          <button class="btn-key operator">+</button>
-          <button class="btn-key">1</button>
-          <button class="btn-key">2</button>
-          <button class="btn-key">3</button>
-          <button id="enter" class="btn-key">=</button>
-          <button class="btn-key">0</button>
-          <button class="btn-key">.</button>
+          <button data-all-clear>AC</button>
+          <button data-delete>DEL</button>
+          <button data-operation>÷</button>
+          <button data-operation>*</button>
+          <button data-number>7</button>
+          <button data-number>8</button>
+          <button data-number>9</button>
+          <button data-operation>-</button>
+          <button data-number>4</button>
+          <button data-number>5</button>
+          <button data-number>6</button>
+          <button data-operation>+</button>
+          <button data-number>1</button>
+          <button data-number>2</button>
+          <button data-number>3</button>
+          <button data-equals>=</button>
+          <button data-number>0</button>
+          <button data-number>.</button>
         </div>
       </div>
       <p class="body-title">A simple calculator</p>
