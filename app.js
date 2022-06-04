@@ -12,41 +12,51 @@ const currentOperandTextElement = document.querySelector(
 );
 const displayText = document.querySelector('.display-text');
 
-let displayTextVal = '';
 let currentOperation = '';
+let prevValue = '';
+let currentValue = '';
 
 // Clear to make it to default
 clear();
 
-function clear() {
-  previousOperandTextElement.innerText = ' ';
-  currentOperandTextElement.innerText = '0';
-  displayTextVal = '';
-  displayText.classList.remove('active');
+function clear() {}
+
+function resetScreen() {
+  currentOperandTextElement.innerText = '';
 }
 
 function deleteNumber() {
-  if (currentOperandTextElement.innerText.length > 1) {
-    currentOperandTextElement.innerText = currentOperandTextElement.innerText
-      .toString()
-      .slice(0, -1);
-  } else {
-    clear();
-  }
+  currentValue = currentValue.toString().slice(0, -1);
 }
 
 function appendNumber(number) {
-  displayTextVal += number.toString();
+  currentValue += number.toString();
 }
 
 function chooseOperation(operation) {
-  currentOperation = operation;
+  if (currentValue === '') return;
+  if (prevValue !== '') {
+    compute();
+  } else {
+    currentOperation = operation;
+    prevValue = currentValue;
+    currentValue = '';
+  }
 }
 
-function compute() {}
+function compute() {
+  // console.log('prev', prevValue);
+  // console.log('current', currentValue);
+  let computation = operate(currentOperation, prevValue, currentValue);
+  // console.log(computation);
+  prevValue = '';
+  currentValue = computation;
+  currentOperation = null;
+}
 
 function updateDisplay() {
-  currentOperandTextElement.innerText = displayTextVal;
+  previousOperandTextElement.innerText = prevValue;
+  currentOperandTextElement.innerText = currentValue;
 }
 
 // math operators
@@ -87,10 +97,17 @@ function operate(operator, a, b) {
 
 allClearButton.addEventListener('click', () => {
   clear();
+  updateDisplay();
 });
 
 deleteButton.addEventListener('click', () => {
   deleteNumber();
+  updateDisplay();
+});
+
+equalsButton.addEventListener('click', () => {
+  compute();
+  updateDisplay();
 });
 
 numberButtons.forEach(btn => {
@@ -100,12 +117,12 @@ numberButtons.forEach(btn => {
     updateDisplay();
 
     displayText.classList.add('active');
-    // console.log(currentOperation);
   });
 });
 
 operationButtons.forEach(operationBtn => {
   operationBtn.addEventListener('click', () => {
     chooseOperation(operationBtn.innerText);
+    updateDisplay();
   });
 });
