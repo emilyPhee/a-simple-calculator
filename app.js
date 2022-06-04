@@ -16,84 +16,7 @@ let currentOperation = '';
 let prevValue = '';
 let currentValue = '';
 
-// Clear to make it to default
-clear();
-
-function clear() {}
-
-function resetScreen() {
-  currentOperandTextElement.innerText = '';
-}
-
-function deleteNumber() {
-  currentValue = currentValue.toString().slice(0, -1);
-}
-
-function appendNumber(number) {
-  currentValue += number.toString();
-}
-
-function chooseOperation(operation) {
-  if (currentValue === '') return;
-  if (prevValue !== '') {
-    compute();
-  } else {
-    currentOperation = operation;
-    prevValue = currentValue;
-    currentValue = '';
-  }
-}
-
-function compute() {
-  // console.log('prev', prevValue);
-  // console.log('current', currentValue);
-  let computation = operate(currentOperation, prevValue, currentValue);
-  // console.log(computation);
-  prevValue = '';
-  currentValue = computation;
-  currentOperation = null;
-}
-
-function updateDisplay() {
-  previousOperandTextElement.innerText = prevValue;
-  currentOperandTextElement.innerText = currentValue;
-}
-
-// math operators
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-function operate(operator, a, b) {
-  a = Number(a);
-  b = Number(b);
-  switch (operator) {
-    case '+':
-      return add(a, b);
-    case '-':
-      return subtract(a, b);
-    case '*':
-      return multiply(a, b);
-
-    case '÷':
-      return divide(a, b);
-
-    default:
-      return;
-  }
-}
+let displayCurrentValue;
 
 allClearButton.addEventListener('click', () => {
   clear();
@@ -126,3 +49,96 @@ operationButtons.forEach(operationBtn => {
     updateDisplay();
   });
 });
+
+// Clear to make it to default
+clear();
+
+function clear() {
+  prevValue = '';
+  currentValue = '';
+  currentOperation = '';
+
+  displayCurrentValue = '';
+}
+
+function deleteNumber() {
+  currentValue = currentValue.toString().slice(0, -1);
+  displayCurrentValue = currentValue;
+}
+
+function appendNumber(number) {
+  if (number === '.' && currentValue.includes('.')) return;
+  currentValue += number.toString();
+  displayCurrentValue = currentValue;
+}
+
+function chooseOperation(operation) {
+  if (currentValue === '') return;
+  if (prevValue !== '') {
+    compute();
+  }
+  currentOperation = operation;
+  prevValue = currentValue;
+  displayCurrentValue = currentValue;
+  currentValue = '';
+}
+
+function compute() {
+  if (currentOperation === '÷' && currentValue === '0') {
+    alert("You can't divide by 0!");
+    currentValue = '';
+    displayCurrentValue = currentValue;
+    return;
+  }
+
+  let computation = operate(currentOperation, prevValue, currentValue);
+  prevValue = '';
+  currentValue = computation;
+  displayCurrentValue = currentValue;
+  currentOperation = '';
+}
+
+function updateDisplay() {
+  previousOperandTextElement.innerText = `${prevValue} ${currentOperation}`;
+  currentOperandTextElement.innerText = displayCurrentValue;
+}
+
+// math operators
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  return a / b;
+}
+
+function operate(operator, a, b) {
+  a = Number(a);
+  b = Number(b);
+  switch (operator) {
+    case '+':
+      return add(a, b);
+    case '-':
+      return subtract(a, b);
+    case '*':
+      return multiply(a, b);
+
+    case '÷':
+      if (b === 0) {
+        return null;
+      } else {
+        return divide(a, b);
+      }
+
+    default:
+      return null;
+  }
+}
